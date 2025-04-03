@@ -1,217 +1,113 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<!-- 恭喜你发现彩蛋, -->
-<!-- 这是一个用ai编写的网页, -->
-<!-- bug很多, -->
-<!-- 懒得改了。-->
+<html>
+<!-- 恭喜你发现彩蛋! -->
+<!-- 这是一个使用 AI 编写的网页(代码量占99%), -->
+<!-- 还有一些小瑕疵, -->
+<!-- 但我懒得改了。-->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            /* 去掉 overflow: hidden，使页面可以滚动 */
-        }
-
-        nav {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 20px;
-            animation: fadeIn 2s ease;
-            position: relative;
-            z-index: 1;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .box {
-            width: 600px;
-            height: 200px;
-            background-color: #f0f0f0;
-            margin: 10px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            border-radius: 10px;
-        }
-
-        .box span {
-            font-size: 24px;
-        }
-
-        .box .comment {
-            font-size: 14px;
-            color: #777;
-            margin-top: 10px;
-        }
-
-        .box:hover {
-            background-color: #e0e0e0;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        #page-title {
-            font-size: 36px;
-        }
-
-        nav a {
-            margin: 0 15px;
-            color: white;
-            text-decoration: none;
-        }
-
-        nav a:hover {
-            text-decoration: underline;
-        }
-
-        /* 花瓣样式 */
-       .petal {
+        .petal {
             position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: pink;
-            border-radius: 50% 50% 50% 0;
-            transform: rotate(-45deg);
+            background: pink;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
             pointer-events: none;
-            animation: fall linear forwards;
         }
-
-        @keyframes fall {
-            to {
-                transform: rotate(-45deg) translate(
-                    calc(var(--x-offset) * 1vw),
-                    calc(100vh + 200px)
-                );
-            }
+        #petal-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
         }
     </style>
-<script>
-        const pageData = {
-            title: "sswz666の网页",
-            boxes: [
-                {
-                    text: "COLID OS",
-                    link: "https://sswz666.github.io/game/SaOs.html",
-                    comment: "一个用Scratch编写的操作系统"
-                },
-                {
-                    text: "Deepseek",
-                    link: "https://chat.deepseek.com",
-                    comment: "Deepseek"
-                }
-            ]
-        };
-
-        function typeWriterEffect(text, element, index = 0) {
-            if (index < text.length) {
-                element.textContent += text.charAt(index);
-                setTimeout(() => typeWriterEffect(text, element, index + 1), 300);
-            }
-        }
-
-        window.onload = function () {
-            const titleElement = document.querySelector('title');
-            typeWriterEffect(pageData.title, titleElement);
-
-            // 生成花瓣
-            function createPetal() {
-                const petal = document.createElement('div');
-                petal.classList.add('petal');
-
-                // 减少从左边生成花瓣的概率
-                const fromTop = Math.random() > 0.2;
-                if (fromTop) {
-                    petal.style.left = Math.random() * window.innerWidth + 'px';
-                    petal.style.top = -Math.random() * 200 + 'px';
-                } else {
-                    petal.style.left = -Math.random() * 100 + 'px';
-                    petal.style.top = Math.random() * window.innerHeight + 'px';
-                }
-
-                // 随机设置花瓣飘落的水平偏移，包含正负方向
-                const xOffset = (Math.random() - 0.5) * 40;
-                petal.style.setProperty('--x-offset', xOffset);
-
-                // 随机设置动画持续时间，使飘落速度不同
-                const animationDuration = (Math.random() * 15 + 5);
-                petal.style.animationDuration = animationDuration + 's';
-
-                document.body.appendChild(petal);
-
-                // 根据动画持续时间来移除花瓣，实现自然消失
-                setTimeout(() => {
-                    petal.remove();
-                }, (animationDuration + 2) * 1000); 
-            }
-
-            // 增加花瓣生成频率
-            setInterval(createPetal, 80);
-        };
-    </script>
 </head>
-
-<body>
-    <nav>
-        <h1 id="page-title"></h1>
-        <a href="#">自我介绍</a>
-        <a href="#">下载页面</a>
-        <a href="https://sswz666.github.io/else">其他</a>
+<body class="bg-gray-100 overflow-x-hidden">
+    <div id="petal-container"></div>
+    <nav class="bg-black py-4">
+        <div class="container mx-auto flex justify-between items-center px-4">
+            <h1 class="text-3xl text-white font-bold">sswz666の网页</h1>
+            <div class="space-x-4">
+                <a href="https://sswz666.github.io/aboutme" class="text-sm text-gray-400 hover:text-white">自我介绍</a>
+		<a href="https://space.bilibili.com/3546790164957911" class="text-sm text-gray-400 hover:text-white">哔哩哔哩</a>
+		<a href="https://sswz666.github.io/else" class="text-sm text-gray-400 hover:text-white">其他</a>
+            </div>
+        </div>
     </nav>
-    <div class="container" id="box-container">
-        <!-- 这里会动态添加框 -->
+    <div id="content" class="container mx-auto px-4 py-8">
     </div>
     <script>
-        document.getElementById('page-title').textContent = pageData.title;
-        const boxContainer = document.getElementById('box-container');
-        pageData.boxes.forEach(box => {
-            if (box.text && box.link) {
-                const link = document.createElement('a');
-                link.href = box.link;
-                const boxElement = document.createElement('div');
-                boxElement.classList.add('box');
-                const span = document.createElement('span');
-                span.textContent = box.text;
-                boxElement.appendChild(span);
-
-                if (box.comment) {
-                    const commentElement = document.createElement('div');
-                    commentElement.classList.add('comment');
-                    commentElement.textContent = box.comment;
-                    boxElement.appendChild(commentElement);
-                }
-
-                link.appendChild(boxElement);
-                boxContainer.appendChild(link);
+        const data = [
+            {
+                "name": "COLID OS",
+                "description": "一个由Scratch编写的伪操作系统 (请用电脑打开)",
+                "link": "https://sswz666.github.io/game/SaOs.html"
+            },
+            {
+                "name": "Deepseek",
+                "description": "This is a good AI",
+                "link": "https://chat.deepseek.com"
             }
+        ];
+        const contentDiv = document.getElementById('content');
+        data.forEach(item => {
+            const box = document.createElement('a');
+            box.href = item.link;
+            box.classList.add('block', 'bg-white', 'p-4', 'mb-4', 'rounded', 'shadow', 'hover:shadow-lg');
+            const name = document.createElement('h2');
+            name.classList.add('text-xl', 'font-bold', 'mb-2');
+            name.textContent = item.name;
+            const description = document.createElement('p');
+            description.classList.add('text-gray-600');
+            description.textContent = item.description;
+            box.appendChild(name);
+            box.appendChild(description);
+            contentDiv.appendChild(box);
         });
+        const titleText = "一个普通的网页";
+        let index = 0;
+        function typeTitle() {
+            if (index < titleText.length) {
+                document.title += titleText[index];
+                index++;
+                setTimeout(typeTitle, 300);
+            }
+        }
+        typeTitle();
+        const petalContainer = document.getElementById('petal-container');
+        function createPetal() {
+            const petal = document.createElement('div');
+            petal.classList.add('petal');
+            const size = Math.random() * 10 + 5;
+            petal.style.width = `${size}px`;
+            petal.style.height = `${size}px`;
+            const startX = Math.random() < 0.5 ? -size : Math.random() * window.innerWidth;
+            const startY = Math.random() < 0.5 ? -size : Math.random() * window.innerHeight;
+            petal.style.left = `${startX}px`;
+            petal.style.top = `${startY}px`;
+            const duration = Math.random() * 10 + 5;
+            const animation = petal.animate([
+                { transform: `translate(0, 0) rotate(0deg)` },
+                { transform: `translate(${Math.random() * 200 - 100}px, ${window.innerHeight + size}px) rotate(360deg)` }
+            ], {
+                duration: duration * 1000,
+                easing: 'linear',
+                iterations: 1,
+                fill: 'forwards'
+            });
+            animation.onfinish = () => {
+                petal.remove();
+            };
+            petalContainer.appendChild(petal);
+        }
+        setInterval(createPetal, 500);
     </script>
 </body>
-
-</html>    
+</html>
+    
